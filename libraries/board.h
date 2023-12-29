@@ -229,6 +229,14 @@ class Board {
       if (board[x + 1][y].get_type() == Piece::EMPTY) {
         res.push_back(MP(MP(x, y), MP(x + 1, y)));
       }
+
+      if (y + 1 < 8 && board[x + 1][y + 1].get_color() == Piece::BLACK) {
+        res.push_back(MP(MP(x, y), MP(x + 1, y + 1)));
+      }
+
+      if (y - 1 > -1 && board[x + 1][y - 1].get_color() == Piece::BLACK) {
+        res.push_back(MP(MP(x, y), MP(x + 1, y - 1)));
+      }
     } else if (board[x][y].get_color() == Piece::BLACK) {
       if (x == 6) {
         if (board[x - 2][y].get_type() == Piece::EMPTY && board[x - 1][y].get_type() == Piece::EMPTY) {
@@ -238,6 +246,14 @@ class Board {
 
       if (board[x - 1][y].get_type() == Piece::EMPTY) {
         res.push_back(MP(MP(x, y), MP(x - 1, y)));
+      }
+
+      if (y + 1 < 8 && board[x - 1][y + 1].get_color() == Piece::BLACK) {
+        res.push_back(MP(MP(x, y), MP(x - 1, y + 1)));
+      }
+
+      if (y - 1 < 8 && board[x - 1][y - 1].get_color() == Piece::BLACK) {
+        res.push_back(MP(MP(x, y), MP(x - 1, y - 1)));
       }
     }
     return res;
