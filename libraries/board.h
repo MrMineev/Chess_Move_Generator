@@ -20,7 +20,7 @@ class Board {
     board.resize(8, vector<Piece>(8, Piece(-1, Piece::NEUTRAL)));
   }
 
-  // first - x, second - y
+  // first - row, second - column 
 
   void set_standard() {
     board[0][0].set(Piece::ROOK, Piece::WHITE); 
@@ -218,6 +218,29 @@ class Board {
   }
 
   vector<MOVE> pawn_moves(int x, int y) {
+    vector<MOVE> res;
+    if (board[x][y].get_color() == Piece::WHITE) {
+      if (x == 1) {
+        if (board[x + 2][y].get_type() == Piece::EMPTY && board[x + 1][y].get_type() == Piece::EMPTY) {
+          res.push_back(MP(MP(x, y), MP(x + 2, y)));
+        }
+      }
+
+      if (board[x + 1][y].get_type() == Piece::EMPTY) {
+        res.push_back(MP(MP(x, y), MP(x + 1, y)));
+      }
+    } else if (board[x][y].get_color() == Piece::BLACK) {
+      if (x == 6) {
+        if (board[x - 2][y].get_type() == Piece::EMPTY && board[x - 1][y].get_type() == Piece::EMPTY) {
+          res.push_back(MP(MP(x, y), MP(x - 2, y)));
+        }
+      }
+
+      if (board[x - 1][y].get_type() == Piece::EMPTY) {
+        res.push_back(MP(MP(x, y), MP(x - 1, y)));
+      }
+    }
+    return res;
   }
 };
 
