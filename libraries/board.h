@@ -17,7 +17,7 @@ class Board {
 
  public:
   Board() {
-    board.resize(8, vector<Piece>(8, Piece(-1, Piece::NEUTRAL)));
+    board.resize(8, vector<Piece>(8, Piece(Piece::EMPTY, Piece::NEUTRAL)));
   }
 
   // first - row, second - column 
@@ -52,10 +52,10 @@ class Board {
 
   vector<MOVE> bishop_moves(int old_x, int old_y) {
     vector<MOVE> pseudo_legal;
-    int x = old_x;
-    int y = old_y;
+    int x = old_x + 1;
+    int y = old_y + 1;
     while (x < 8 && y < 8) {
-      if (board[x][y].get_type() != Piece::EMPTY) {
+      if (board[x][y].get_type() == Piece::EMPTY) {
         pseudo_legal.push_back(MP(MP(old_x, old_y), MP(x, y)));
       } else {
         break;
@@ -64,10 +64,10 @@ class Board {
       y++;
     }
 
-    x = old_x;
-    y = old_y;
+    x = old_x - 1;
+    y = old_y - 1;
     while (x > -1 && y > -1) {
-      if (board[x][y].get_type() != Piece::EMPTY) {
+      if (board[x][y].get_type() == Piece::EMPTY) {
         pseudo_legal.push_back(MP(MP(old_x, old_y), MP(x, y)));
       } else {
         break;
@@ -76,10 +76,10 @@ class Board {
       y--;
     }
 
-    x = old_x;
-    y = old_y;
+    x = old_x - 1;
+    y = old_y + 1;
     while (x > -1 && y < 8) {
-      if (board[x][y].get_type() != Piece::EMPTY) {
+      if (board[x][y].get_type() == Piece::EMPTY) {
         pseudo_legal.push_back(MP(MP(old_x, old_y), MP(x, y)));
       } else {
         break;
@@ -88,10 +88,10 @@ class Board {
       y++;
     }
 
-    x = old_x;
-    y = old_y;
+    x = old_x + 1;
+    y = old_y - 1;
     while (x < 8 && y > -1) {
-      if (board[x][y].get_type() != Piece::EMPTY) {
+      if (board[x][y].get_type() == Piece::EMPTY) {
         pseudo_legal.push_back(MP(MP(old_x, old_y), MP(x, y)));
       } else {
         break;
@@ -106,9 +106,9 @@ class Board {
   vector<MOVE> rook_moves(int old_x, int old_y) {
     vector<MOVE> pseudo_legal;
     int x = old_x;
-    int y = old_y;
+    int y = old_y + 1;
     while (y < 8) {
-      if (board[x][y].get_type() != Piece::EMPTY) {
+      if (board[x][y].get_type() == Piece::EMPTY) {
         pseudo_legal.push_back(MP(MP(old_x, old_y), MP(x, y)));
       } else {
         break;
@@ -117,9 +117,9 @@ class Board {
     }
 
     x = old_x;
-    y = old_y;
+    y = old_y - 1;
     while (y > -1) {
-      if (board[x][y].get_type() != Piece::EMPTY) {
+      if (board[x][y].get_type() == Piece::EMPTY) {
         pseudo_legal.push_back(MP(MP(old_x, old_y), MP(x, y)));
       } else {
         break;
@@ -127,10 +127,10 @@ class Board {
       y--;
     }
 
-    x = old_x;
+    x = old_x - 1;
     y = old_y;
     while (x > -1) {
-      if (board[x][y].get_type() != Piece::EMPTY) {
+      if (board[x][y].get_type() == Piece::EMPTY) {
         pseudo_legal.push_back(MP(MP(old_x, old_y), MP(x, y)));
       } else {
         break;
@@ -138,10 +138,10 @@ class Board {
       x--;
     }
 
-    x = old_x;
+    x = old_x + 1;
     y = old_y;
     while (x < 8) {
-      if (board[x][y].get_type() != Piece::EMPTY) {
+      if (board[x][y].get_type() == Piece::EMPTY) {
         pseudo_legal.push_back(MP(MP(old_x, old_y), MP(x, y)));
       } else {
         break;
@@ -155,35 +155,35 @@ class Board {
   vector<MOVE> knight_moves(int x, int y) {
     vector<MOVE> res;
 
-    if (x + 2 < 8 && y + 1 < 8 && board[x + 2][y + 1].get_type() != Piece::EMPTY) {
+    if (x + 2 < 8 && y + 1 < 8 && board[x + 2][y + 1].get_type() == Piece::EMPTY) {
       res.push_back(MP(MP(x, y), MP(x + 2, y + 1)));
     }
 
-    if (x + 2 < 8 && y - 1 > -1 && board[x + 2][y - 1].get_type() != Piece::EMPTY) {
+    if (x + 2 < 8 && y - 1 > -1 && board[x + 2][y - 1].get_type() == Piece::EMPTY) {
       res.push_back(MP(MP(x, y), MP(x + 2, y - 1)));
     }
 
-    if (x + 1 < 8 && y + 2 < 8 && board[x + 1][y + 2].get_type() != Piece::EMPTY) {
+    if (x + 1 < 8 && y + 2 < 8 && board[x + 1][y + 2].get_type() == Piece::EMPTY) {
       res.push_back(MP(MP(x, y), MP(x + 1, y + 2)));
     }
 
-    if (x + 1 < 8 && y - 2 > -1 && board[x + 1][y - 2].get_type() != Piece::EMPTY) {
+    if (x + 1 < 8 && y - 2 > -1 && board[x + 1][y - 2].get_type() == Piece::EMPTY) {
       res.push_back(MP(MP(x, y), MP(x + 1, y - 2)));
     }
 
-    if (x - 1 > -1 && y + 2 < 8 && board[x - 1][y + 2].get_type() != Piece::EMPTY) {
+    if (x - 1 > -1 && y + 2 < 8 && board[x - 1][y + 2].get_type() == Piece::EMPTY) {
       res.push_back(MP(MP(x, y), MP(x - 1, y + 2)));
     }
 
-    if (x - 1 > -1 && y - 2 > -1 && board[x - 1][y - 2].get_type() != Piece::EMPTY) {
+    if (x - 1 > -1 && y - 2 > -1 && board[x - 1][y - 2].get_type() == Piece::EMPTY) {
       res.push_back(MP(MP(x, y), MP(x - 1, y - 2)));
     }
 
-    if (x - 2 > -1 && y + 1 < 8 && board[x - 2][y + 1].get_type() != Piece::EMPTY) {
+    if (x - 2 > -1 && y + 1 < 8 && board[x - 2][y + 1].get_type() == Piece::EMPTY) {
       res.push_back(MP(MP(x, y), MP(x - 2, y + 1)));
     }
 
-    if (x - 2 > -1 && y - 1 > -1 && board[x - 2][y - 1].get_type() != Piece::EMPTY) {
+    if (x - 2 > -1 && y - 1 > -1 && board[x - 2][y - 1].get_type() == Piece::EMPTY) {
       res.push_back(MP(MP(x, y), MP(x - 2, y + 1)));
     }
 
@@ -200,6 +200,7 @@ class Board {
     for (int i = 0; i < rook.size(); i++) {
       res.push_back(rook[i]);
     }
+    return res;
   }
 
   vector<MOVE> king_moves(int x, int y) {
@@ -208,7 +209,11 @@ class Board {
       for (int j = -1; j <= 1; j++) {
         if (i == 0 && j == 0) { continue; }
 
-        if (board[i][j].get_type() == Piece::EMPTY) {
+        if (!(x + i < 8 && x + i > -1 && y + i > -1 && y + i < 8)) {
+          continue;
+        }
+
+        if (board[x][y].get_type() == Piece::EMPTY) {
           res.push_back(MP(MP(x, y), MP(x + i, y + j)));
         }
       }
@@ -270,20 +275,27 @@ class Board {
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j++) {
         if (board[i][j].get_type() == Piece::PAWN) {
+          cout << "PAWN = " << pawn_moves(i, j).size() << endl;
           add_to_array(&res, pawn_moves(i, j));
         } else if (board[i][j].get_type() == Piece::BISHOP) {
+          cout << "BISHOP = " << bishop_moves(i, j).size() << endl;
           add_to_array(&res, bishop_moves(i, j));
         } else if (board[i][j].get_type() == Piece::KNIGHT) {
+          cout << "KNIGHT = " << knight_moves(i, j).size() << endl;
           add_to_array(&res, knight_moves(i, j));
         } else if (board[i][j].get_type() == Piece::QUEEN) {
+          cout << "QUEEN = " << queen_moves(i, j).size() << endl;
           add_to_array(&res, queen_moves(i, j));
         } else if (board[i][j].get_type() == Piece::KING) {
+          cout << "KING = " << king_moves(i, j).size() << endl;
           add_to_array(&res, king_moves(i, j));
         } else if (board[i][j].get_type() == Piece::ROOK) {
+          cout << "ROOK = " << rook_moves(i, j).size() << endl;
           add_to_array(&res, rook_moves(i, j));
         }
       }
     }
+    return res;
   }
 };
 
