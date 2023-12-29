@@ -258,6 +258,33 @@ class Board {
     }
     return res;
   }
+
+  void add_to_array(vector<MOVE> *arr, vector<MOVE> addition) {
+    for (int i = 0; i < (int)addition.size(); i++) {
+      arr->push_back(addition[i]);
+    }
+  }
+
+  vector<MOVE> get_legal_moves() {
+    vector<MOVE> res;
+    for (int i = 0; i < 8; i++) {
+      for (int j = 0; j < 8; j++) {
+        if (board[i][j].get_type() == Piece::PAWN) {
+          add_to_array(&res, pawn_moves(i, j));
+        } else if (board[i][j].get_type() == Piece::BISHOP) {
+          add_to_array(&res, bishop_moves(i, j));
+        } else if (board[i][j].get_type() == Piece::KNIGHT) {
+          add_to_array(&res, knight_moves(i, j));
+        } else if (board[i][j].get_type() == Piece::QUEEN) {
+          add_to_array(&res, queen_moves(i, j));
+        } else if (board[i][j].get_type() == Piece::KING) {
+          add_to_array(&res, king_moves(i, j));
+        } else if (board[i][j].get_type() == Piece::ROOK) {
+          add_to_array(&res, rook_moves(i, j));
+        }
+      }
+    }
+  }
 };
 
 
