@@ -110,7 +110,7 @@ class Board {
     int x = old_x;
     int y = old_y + 1;
     while (y < 8) {
-      if (board[x][y].get_type() == Piece::EMPTY) {
+      if (board[x][y].get_type() == Piece::EMPTY || board[x][y].get_color() != turn) {
         pseudo_legal.push_back(MP(MP(old_x, old_y), MP(x, y)));
       } else {
         break;
@@ -121,7 +121,7 @@ class Board {
     x = old_x;
     y = old_y - 1;
     while (y > -1) {
-      if (board[x][y].get_type() == Piece::EMPTY) {
+      if (board[x][y].get_type() == Piece::EMPTY || board[x][y].get_color() != turn) {
         pseudo_legal.push_back(MP(MP(old_x, old_y), MP(x, y)));
       } else {
         break;
@@ -132,7 +132,7 @@ class Board {
     x = old_x - 1;
     y = old_y;
     while (x > -1) {
-      if (board[x][y].get_type() == Piece::EMPTY) {
+      if (board[x][y].get_type() == Piece::EMPTY || board[x][y].get_color() != turn) {
         pseudo_legal.push_back(MP(MP(old_x, old_y), MP(x, y)));
       } else {
         break;
@@ -143,7 +143,7 @@ class Board {
     x = old_x + 1;
     y = old_y;
     while (x < 8) {
-      if (board[x][y].get_type() == Piece::EMPTY) {
+      if (board[x][y].get_type() == Piece::EMPTY || board[x][y].get_color() != turn) {
         pseudo_legal.push_back(MP(MP(old_x, old_y), MP(x, y)));
       } else {
         break;
