@@ -17,37 +17,37 @@ class Board {
 
  public:
   Board() {
-    board.resize(8, vector<Piece>(8, Piece(-1)));
+    board.resize(8, vector<Piece>(8, Piece(-1, Piece::NEUTRAL)));
   }
 
   // first - x, second - y
 
   void set_standard() {
-    board[0][0].set_type(Piece::ROOK); 
-    board[0][1].set_type(Piece::KNIGHT); 
-    board[0][2].set_type(Piece::BISHOP); 
-    board[0][3].set_type(Piece::QUEEN); 
-    board[0][4].set_type(Piece::KING); 
-    board[0][5].set_type(Piece::BISHOP); 
-    board[0][6].set_type(Piece::KNIGHT); 
-    board[0][7].set_type(Piece::ROOK); 
+    board[0][0].set(Piece::ROOK, Piece::WHITE); 
+    board[0][1].set(Piece::KNIGHT, Piece::WHITE); 
+    board[0][2].set(Piece::BISHOP, Piece::WHITE); 
+    board[0][3].set(Piece::QUEEN, Piece::WHITE); 
+    board[0][4].set(Piece::KING, Piece::WHITE); 
+    board[0][5].set(Piece::BISHOP, Piece::WHITE); 
+    board[0][6].set(Piece::KNIGHT, Piece::WHITE); 
+    board[0][7].set(Piece::ROOK, Piece::WHITE); 
 
     for (int i = 0; i < 8; i++) {
-      board[1][i].set_type(Piece::PAWN);
+      board[1][i].set(Piece::PAWN, Piece::WHITE);
     }
 
     for (int i = 0; i < 8; i++) {
-      board[6][i].set_type(Piece::PAWN);
+      board[6][i].set(Piece::PAWN, Piece::BLACK);
     }
 
-    board[7][0].set_type(Piece::ROOK); 
-    board[7][1].set_type(Piece::KNIGHT); 
-    board[7][2].set_type(Piece::BISHOP); 
-    board[7][3].set_type(Piece::QUEEN); 
-    board[7][4].set_type(Piece::KING); 
-    board[7][5].set_type(Piece::BISHOP); 
-    board[7][6].set_type(Piece::KNIGHT); 
-    board[7][7].set_type(Piece::ROOK); 
+    board[7][0].set(Piece::ROOK, Piece::BLACK); 
+    board[7][1].set(Piece::KNIGHT, Piece::BLACK); 
+    board[7][2].set(Piece::BISHOP, Piece::BLACK); 
+    board[7][3].set(Piece::QUEEN, Piece::BLACK); 
+    board[7][4].set(Piece::KING, Piece::BLACK); 
+    board[7][5].set(Piece::BISHOP, Piece::BLACK); 
+    board[7][6].set(Piece::KNIGHT, Piece::BLACK); 
+    board[7][7].set(Piece::ROOK, Piece::BLACK); 
   }
 
   vector<MOVE> bishop_moves(int old_x, int old_y) {
@@ -206,8 +206,15 @@ class Board {
     vector<MOVE> res;
     for (int i = -1; i <= 1; i++) {
       for (int j = -1; j <= 1; j++) {
+        if (i == 0 && j == 0) { continue; }
+
+        if (board[i][j].get_type() == Piece::EMPTY) {
+          res.push_back(MP(MP(x, y), MP(x + i, y + j)));
+        }
       }
     }
+    
+    return res;
   }
 
   vector<MOVE> pawn_moves(int x, int y) {
