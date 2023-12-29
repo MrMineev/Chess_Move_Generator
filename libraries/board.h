@@ -272,7 +272,7 @@ class Board {
     }
   }
 
-  vector<MOVE> get_legal_moves() {
+  vector<MOVE> get_pseudo_legal_moves() {
     vector<MOVE> res;
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j++) {
@@ -301,6 +301,43 @@ class Board {
       }
     }
     return res;
+  }
+
+  vector<MOVE> get_legal_moves() {
+    vector<MOVE> pseudo_legal_moves = get_pseudo_legal_moves();
+    vector<MOVE> res;
+    for (MOVE m : pseudo_legal_moves) {
+      Board new_board;
+      new_board.set_board(board);
+      new_board.play_move(m);
+
+      vector<MOVE> new_legal_moves = new_board.get_pseudo_legal_moves();
+      bool a = false;
+      for (MOVE m_2 : new_legal_moves) {
+        Piece p = board[m_2.second.first][m_2.second.second];
+        if (p.get_type() == Piece::KING && p.get_color() == turn) {
+          a = true;
+        }
+      }
+
+      if (!a) {
+        res.push_back(m);
+      }
+    }
+    return res;
+  }
+
+  void play_move(MOVE m) {
+    board[m.second.first][m.second.second].set_type(board[m.first.first][m.first.second].get_type());
+    board[m.second.first][m.second.second].set_color(board[m.first.first][m.first.second].get_color());
+
+    board[m.first.first][m.first.second].set(Piece::EMPTY, Piece::NEUTRAL);
+
+    turn = (turn + 1) % 2;
+  }
+
+  void set_board(vector<vector<Piece>> b) {
+    board = b;
   }
 };
 
