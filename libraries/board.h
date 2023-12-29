@@ -14,10 +14,12 @@ typedef pair<pair<int, int>, pair<int, int>> MOVE;
 class Board {
  private:
    vector<vector<Piece>> board;
+   int turn;
 
  public:
   Board() {
     board.resize(8, vector<Piece>(8, Piece(Piece::EMPTY, Piece::NEUTRAL)));
+    turn = 0;
   }
 
   // first - row, second - column 
@@ -274,23 +276,26 @@ class Board {
     vector<MOVE> res;
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j++) {
+        if (board[i][j].get_color() != turn) {
+          continue;
+        }
         if (board[i][j].get_type() == Piece::PAWN) {
-          cout << "PAWN = " << pawn_moves(i, j).size() << endl;
+          // cout << "PAWN = " << pawn_moves(i, j).size() << endl;
           add_to_array(&res, pawn_moves(i, j));
         } else if (board[i][j].get_type() == Piece::BISHOP) {
-          cout << "BISHOP = " << bishop_moves(i, j).size() << endl;
+          // cout << "BISHOP = " << bishop_moves(i, j).size() << endl;
           add_to_array(&res, bishop_moves(i, j));
         } else if (board[i][j].get_type() == Piece::KNIGHT) {
-          cout << "KNIGHT = " << knight_moves(i, j).size() << endl;
+          // cout << "KNIGHT = " << knight_moves(i, j).size() << endl;
           add_to_array(&res, knight_moves(i, j));
         } else if (board[i][j].get_type() == Piece::QUEEN) {
-          cout << "QUEEN = " << queen_moves(i, j).size() << endl;
+          // cout << "QUEEN = " << queen_moves(i, j).size() << endl;
           add_to_array(&res, queen_moves(i, j));
         } else if (board[i][j].get_type() == Piece::KING) {
-          cout << "KING = " << king_moves(i, j).size() << endl;
+          // cout << "KING = " << king_moves(i, j).size() << endl;
           add_to_array(&res, king_moves(i, j));
         } else if (board[i][j].get_type() == Piece::ROOK) {
-          cout << "ROOK = " << rook_moves(i, j).size() << endl;
+          // cout << "ROOK = " << rook_moves(i, j).size() << endl;
           add_to_array(&res, rook_moves(i, j));
         }
       }
